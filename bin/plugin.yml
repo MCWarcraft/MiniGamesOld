@@ -1,0 +1,17 @@
+name: Minigames
+main: randy.minigames.main
+version: 1.0
+depend: [HonorPoints, FFA, Kits, CorePlugin]
+commands:
+  koth:
+    description: King of the Hill
+    usage: /<command>
+  lms:
+    description: Last Man Standing
+    usage: /<command>
+  join:
+    description: Join a minigame
+    usage: /<command>
+  minigame:
+    description: General minigame commands
+    usage: /<command>
