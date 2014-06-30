@@ -20,6 +20,12 @@ import randy.gametypes.MiniGame;
 import randy.kits.CustomKit;
 import randy.kits.Kits;
 import randy.minigames.GameManager.GameTypes;
+import randy.minigames.listeners.PlayerDamage;
+import randy.minigames.listeners.PlayerDeath;
+import randy.minigames.listeners.PlayerDrop;
+import randy.minigames.listeners.PlayerHit;
+import randy.minigames.listeners.PlayerJoin;
+import randy.minigames.listeners.PlayerLeave;
 
 public class main extends JavaPlugin{
 	
@@ -28,6 +34,9 @@ public class main extends JavaPlugin{
 	private final PlayerJoin playerJoinListener = new PlayerJoin();
 	private final PlayerDeath playerDeathListener = new PlayerDeath();
 	private final PlayerDamage playerDamageListener = new PlayerDamage();
+	private final PlayerLeave playerLeaveListener = new PlayerLeave();
+	private final PlayerHit playerHitListener = new PlayerHit();
+	private final PlayerDrop playerDropListener = new PlayerDrop();
 	
 	//Minigame players
 	public static ArrayList<Player> minigamePlayers = new ArrayList<Player>();
@@ -56,6 +65,9 @@ public class main extends JavaPlugin{
 		getServer().getPluginManager().registerEvents(playerJoinListener, this);
 		getServer().getPluginManager().registerEvents(playerDeathListener, this);
 		getServer().getPluginManager().registerEvents(playerDamageListener, this);
+		getServer().getPluginManager().registerEvents(playerLeaveListener, this);
+		getServer().getPluginManager().registerEvents(playerHitListener, this);
+		getServer().getPluginManager().registerEvents(playerDropListener, this);
 		
 		Config.LoadConfig();
 		

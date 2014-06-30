@@ -1,4 +1,4 @@
-package randy.minigames;
+package randy.minigames.listeners;
 
 import java.util.ArrayList;
 
@@ -13,6 +13,7 @@ import randy.core.tools.CoreDatabase;
 import randy.gametypes.MiniGame;
 import randy.gametypes.MiniGameKOTH;
 import randy.kits.Kits;
+import randy.minigames.GameManager;
 import randy.minigames.GameManager.GameState;
 import randy.minigames.GameManager.GameTypes;
 
