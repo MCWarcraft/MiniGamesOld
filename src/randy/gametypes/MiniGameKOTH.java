@@ -8,11 +8,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import randy.core.CoreScoreboard;
 import randy.core.tools.CoreDatabase;
-import randy.minigames.GameManager.GameTypes;
 import randy.minigames.GameManager;
+import randy.minigames.GameManager.GameTypes;
 import randy.minigames.main;
+import core.Scoreboard.CoreScoreboardManager;
 
 public class MiniGameKOTH extends MiniGame {
 	
@@ -114,7 +114,7 @@ public class MiniGameKOTH extends MiniGame {
 						
 						//Update all scoreboards
 						for(int e = 0; e < participants.size(); e++){
-							CoreScoreboard.UpdateScoreboard(participants.get(e).getName());
+							CoreScoreboardManager.getDisplayBoard(participants.get(e)).update(false);
 						}
 						//MGScoreboardManager.oldScores.clear();
 					}

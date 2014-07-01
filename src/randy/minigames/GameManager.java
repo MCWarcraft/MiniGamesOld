@@ -10,11 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import randy.core.CoreScoreboard;
 import randy.gametypes.MiniGame;
 import randy.gametypes.MiniGameKOTH;
 import randy.gametypes.MiniGameLMS;
 import randy.kits.Kits;
+import core.Scoreboard.CoreScoreboardManager;
 
 public class GameManager {
 
@@ -112,7 +112,7 @@ public class GameManager {
 			if(seconds.length() == 1) seconds = "0" + seconds;
 			MGScoreboardManager.currentTimeString = ""+ChatColor.GREEN + ChatColor.BOLD + minutes + ":" + seconds;
 			
-			for(Player player : main.minigamePlayers) CoreScoreboard.UpdateScoreboard(player.getName());
+			for(Player player : main.minigamePlayers) CoreScoreboardManager.getDisplayBoard(player).update(false);
 			break;
 		case MidGame:
 			if(currentGame != null) currentGame.Update();
@@ -147,7 +147,7 @@ public class GameManager {
 				
 			}
 			
-			for(Player player : main.minigamePlayers) CoreScoreboard.UpdateScoreboard(player.getName());
+			for(Player player : main.minigamePlayers) CoreScoreboardManager.getDisplayBoard(player).update(false);
 			break;
 		default:
 			break;

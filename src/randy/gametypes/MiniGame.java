@@ -11,17 +11,21 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.scoreboard.DisplaySlot;
 
 import randy.core.CoreAPI;
-import randy.core.CoreScoreboard;
 import randy.kits.Kits;
 import randy.minigames.GameManager;
 import randy.minigames.GameManager.GameState;
 import randy.minigames.GameManager.GameTypes;
+import randy.minigames.MGScoreboardManager;
 import randy.minigames.main;
+import core.Custody.Custody;
+import core.Scoreboard.CoreScoreboardManager;
+import core.Scoreboard.ScoreboardValue;
 
-public class MiniGame {
+public class MiniGame implements ScoreboardValue
+
+{
 	
 	public static Location minigameLobbyLocation;
 	
@@ -40,13 +44,13 @@ public class MiniGame {
 			if(!participants.contains(player)) {
 				
 				CoreAPI.ExitGameModes(player);
+				Custody.switchCustody(player, "minigame");
 				
 				main.minigamePlayers.add(player);
 				participants.add(player);
 				playerKills.put(player, 0);
 				player.sendMessage(ChatColor.GOLD + "You have joined the " + ChatColor.RED + gameType.toString() + ChatColor.GOLD + " games!");
 				playerScore.put(player, 0);
-				player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
 				
 				return true;
 			}
@@ -60,8 +64,10 @@ public class MiniGame {
 			GameManager.currentState = GameState.MidGame;
 			GameManager.currentGame = this;
 			
-			for(int i = 0; i < participants.size(); i++){
-				CoreScoreboard.UpdateScoreboard(participants.get(i).getName());
+			for(int i = 0; i < participants.size(); i++)
+			{
+				MGScoreboardManager.GenerateScoreboard(participants.get(i));
+				CoreScoreboardManager.getDisplayBoard(participants.get(i)).update(true);
 			}
 		}
 	}
@@ -84,9 +90,8 @@ public class MiniGame {
         		for(int i = 0; i < participants.size(); i++){
         			Player player = participants.get(i);
         			
-    				for(Player plyr : GameManager.currentGame.playerScore.keySet()){
-    					CoreScoreboard.RemoveScore(player.getName(), ChatColor.GREEN + plyr.getName(), "minigame");
-    				}
+        			CoreScoreboardManager.getDisplayBoard(player).resetFormat();
+    
         			
         			GameManager.ResetPlayerToLobby(player);
         		}
@@ -151,5 +156,23 @@ public class MiniGame {
 	}
 	
 	public void GiveRewards(){
+	}
+	
+	@Override
+	public String getScoreboardValue(String key)
+	{		
+		String[] splitkey = key.split("\\|");
+		if (splitkey.length == 2)
+		{
+			Player player = Bukkit.getPlayer(key);
+			if (player == null) return "bad";
+			return "" + playerScore.get(player);
+		}
+		else if (splitkey.length == 1)
+		{
+			if (splitkey[0].equalsIgnoreCase("participants"))
+				return "" + participants.size();
+		}
+		return "no";
 	}
 }

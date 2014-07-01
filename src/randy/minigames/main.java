@@ -18,6 +18,7 @@ import randy.core.CoreAPI;
 import randy.core.tools.CoreSQL;
 import randy.gametypes.MiniGame;
 import randy.kits.CustomKit;
+import randy.kits.KitManager;
 import randy.kits.Kits;
 import randy.minigames.GameManager.GameTypes;
 import randy.minigames.listeners.PlayerDamage;
@@ -177,7 +178,7 @@ public class main extends JavaPlugin{
 						String kitname = args[1];
 						CustomKit kit = Kits.getKitByName(kitname, "koth");
 						if(kit != null){
-							randy.kits.main.AttemptPurchase(player, kit);
+							KitManager.AttemptPurchase(player, kit);
 						}else{
 							player.sendMessage(ChatColor.RED + "That kit doesn't exist.");
 						}
@@ -227,7 +228,7 @@ public class main extends JavaPlugin{
 						String kitname = args[1];
 						CustomKit kit = Kits.getKitByName(kitname, "koth");
 						if(kit != null){
-							randy.kits.main.AttemptPurchase(player, kit);
+							KitManager.AttemptPurchase(player, kit);
 						}else{
 							player.sendMessage(ChatColor.RED + "That kit doesn't exist.");
 						}

@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-import randy.core.CoreScoreboard;
+import core.Scoreboard.CoreScoreboardManager;
 import randy.core.tools.CoreDatabase;
 import randy.gametypes.MiniGame;
 import randy.gametypes.MiniGameKOTH;
@@ -45,7 +45,7 @@ public class PlayerDeath implements Listener{
 						
 						//Update all scoreboards
 						for(int i = 0; i < game.participants.size(); i++){
-							CoreScoreboard.UpdateScoreboard(game.participants.get(i).getName());
+							CoreScoreboardManager.getDisplayBoard(game.participants.get(i)).update(false);
 						}
 					}
 					deadMinigamePlayers.add(player);

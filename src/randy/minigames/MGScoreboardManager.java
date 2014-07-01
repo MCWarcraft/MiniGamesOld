@@ -5,25 +5,34 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import randy.core.CoreScoreboard;
 import randy.minigames.GameManager.GameState;
+import core.Scoreboard.CoreScoreboardManager;
 
-public class MGScoreboardManager {
+public class MGScoreboardManager
+{
 	
 	public static String currentTimeString = "0:00";
 	public static String previousTimeString = "0:01";
 	public static ArrayList<String> oldScores = new ArrayList<String>();
 	public static ArrayList<String> scores = new ArrayList<String>();
 	
-	public static void UpdateScoreboard(final String player){
+	public static void GenerateScoreboard(Player player){
+		CoreScoreboardManager.getDisplayBoard(player).resetFormat();
+		
 		if(GameManager.currentState == GameState.MidGame || GameManager.currentState == GameState.PreGame){
 			switch(GameManager.currentGame.gameType){
 			case KOTH:				
-				CoreScoreboard.SetTitle(player, ChatColor.AQUA + "KOTH");
+				CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.AQUA + "KOTH");
 				
-				for(Player plyr : GameManager.currentGame.playerScore.keySet()){
-					CoreScoreboard.SetScore(player, ChatColor.GREEN + plyr.getName(), "minigame", GameManager.currentGame.playerScore.get(plyr));
+				for(Player plyr : GameManager.currentGame.playerScore.keySet())
+				{
+					//TODO: Implement sorted scoreboard
+
+					CoreScoreboardManager.getDisplayBoard(player).putHeader(ChatColor.GREEN + plyr.getName());
+					CoreScoreboardManager.getDisplayBoard(player).putField(ChatColor.GOLD + "Score: ", GameManager.currentGame, plyr.getName() + "|score");
+					//CoreScoreboard.SetScore(player, ChatColor.GREEN + plyr.getName(), "minigame", GameManager.currentGame.playerScore.get(plyr));
 				}
+					
 				/*if(!oldScores.isEmpty()){
 					for(int i = oldScores.size() - 1; i > 0; i--){
 						if(i < oldScores.size() - 1)
@@ -77,34 +86,37 @@ public class MGScoreboardManager {
 				
 				break;
 			case LMS:
-				CoreScoreboard.SetTitle(player, ChatColor.AQUA + "LMS");
-				CoreScoreboard.SetScore(player, ChatColor.WHITE + "Alive: ", "minigame", GameManager.currentGame.participants.size());
+				CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.AQUA + "LMS");
+				CoreScoreboardManager.getDisplayBoard(player).putField(ChatColor.GOLD + "Alive: ", GameManager.currentGame, "participants");
 				break;
 			case Sumo:
-				CoreScoreboard.SetTitle(player, ChatColor.AQUA + "SUMO");
+				CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.AQUA + "SUMO");
+				CoreScoreboardManager.getDisplayBoard(player).putSpace();
 				break;
 			default:
-				CoreScoreboard.SetTitle(player, ChatColor.AQUA + "UNKNOWN");
+				CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.AQUA + "UNKNOWN");
+				CoreScoreboardManager.getDisplayBoard(player).putSpace();
 				break;
 			
 			}
 		} else if(GameManager.currentState == GameState.Break){
+			CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.DARK_GREEN + "MINIGAMES");
+			CoreScoreboardManager.getDisplayBoard(player).putSpace();
+			//TODO: Fully implement break board
+			//CoreScoreboard.SetScore(player, currentTimeString, "minigame", 1);
 			
-			CoreScoreboard.SetTitle(player, ChatColor.DARK_GREEN + "MINIGAMES");
-			
-			CoreScoreboard.SetScore(player, ""+ChatColor.GRAY + ChatColor.BOLD + "Next Game:", "minigame", 2);
-			CoreScoreboard.SetScore(player, currentTimeString, "minigame", 1);
-			
-			CoreScoreboard.RemoveScore(player,  ""+ChatColor.GREEN + ChatColor.BOLD + "Waiting for", "minigame");
-			CoreScoreboard.RemoveScore(player,  ""+ChatColor.GREEN + ChatColor.BOLD + "players", "minigame");
-			if(!currentTimeString.equals(previousTimeString)) CoreScoreboard.RemoveScore(player, previousTimeString, "minigame");
+			//CoreScoreboard.RemoveScore(player,  ""+ChatColor.GREEN + ChatColor.BOLD + "Waiting for", "minigame");
+			//CoreScoreboard.RemoveScore(player,  ""+ChatColor.GREEN + ChatColor.BOLD + "players", "minigame");
+			//if(!currentTimeString.equals(previousTimeString)) CoreScoreboard.RemoveScore(player, previousTimeString, "minigame");
 			
 		} else if(GameManager.currentState == GameState.Paused){
 			
-			CoreScoreboard.SetTitle(player, ChatColor.DARK_GREEN + "MINIGAMES");
+			CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.DARK_GREEN + "MINIGAMES");
 			
-			CoreScoreboard.SetScore(player, ""+ChatColor.GREEN + ChatColor.BOLD + "Waiting for", "minigame", 2);
-			CoreScoreboard.SetScore(player, ""+ChatColor.GREEN + ChatColor.BOLD + "players", "minigame", 1);
+			CoreScoreboardManager.getDisplayBoard(player).putHeader(""+ChatColor.GREEN + ChatColor.BOLD + "Waiting for");
+			CoreScoreboardManager.getDisplayBoard(player).putHeader(""+ChatColor.GREEN + ChatColor.BOLD + "players");
 		}
+
+		CoreScoreboardManager.getDisplayBoard(player).update(true);
 	}
 }
