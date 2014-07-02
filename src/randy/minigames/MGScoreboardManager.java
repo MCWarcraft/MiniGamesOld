@@ -22,7 +22,7 @@ public class MGScoreboardManager
 		if(GameManager.currentState == GameState.MidGame || GameManager.currentState == GameState.PreGame){
 			switch(GameManager.currentGame.gameType){
 			case KOTH:				
-				CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.AQUA + "KOTH");
+				CoreScoreboardManager.getDisplayBoard(player).setTitle("KOTH", "" + ChatColor.AQUA);
 				
 				for(Player plyr : GameManager.currentGame.playerScore.keySet())
 				{
@@ -86,21 +86,21 @@ public class MGScoreboardManager
 				
 				break;
 			case LMS:
-				CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.AQUA + "LMS");
+				CoreScoreboardManager.getDisplayBoard(player).setTitle("LMS", "" + ChatColor.AQUA);
 				CoreScoreboardManager.getDisplayBoard(player).putField(ChatColor.GOLD + "Alive: ", GameManager.currentGame, "participants");
 				break;
 			case Sumo:
-				CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.AQUA + "SUMO");
+				CoreScoreboardManager.getDisplayBoard(player).setTitle("SUMO", "" + ChatColor.AQUA);
 				CoreScoreboardManager.getDisplayBoard(player).putSpace();
 				break;
 			default:
-				CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.AQUA + "UNKNOWN");
+				CoreScoreboardManager.getDisplayBoard(player).setTitle("UNKNOWN", "" + ChatColor.AQUA);
 				CoreScoreboardManager.getDisplayBoard(player).putSpace();
 				break;
 			
 			}
 		} else if(GameManager.currentState == GameState.Break){
-			CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.DARK_GREEN + "MINIGAMES");
+			CoreScoreboardManager.getDisplayBoard(player).setTitle("MINIGAMES", "" + ChatColor.DARK_GREEN);
 			CoreScoreboardManager.getDisplayBoard(player).putSpace();
 			//TODO: Fully implement break board
 			//CoreScoreboard.SetScore(player, currentTimeString, "minigame", 1);
@@ -111,7 +111,7 @@ public class MGScoreboardManager
 			
 		} else if(GameManager.currentState == GameState.Paused){
 			
-			CoreScoreboardManager.getDisplayBoard(player).setTitle(ChatColor.DARK_GREEN + "MINIGAMES");
+			CoreScoreboardManager.getDisplayBoard(player).setTitle("MINIGAMES", "" + ChatColor.DARK_GREEN);
 			
 			CoreScoreboardManager.getDisplayBoard(player).putHeader(""+ChatColor.GREEN + ChatColor.BOLD + "Waiting for");
 			CoreScoreboardManager.getDisplayBoard(player).putHeader(""+ChatColor.GREEN + ChatColor.BOLD + "players");
